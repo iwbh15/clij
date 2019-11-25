@@ -15,6 +15,9 @@ import net.haesleinhuepf.clij.utilities.CLIJUtilities;
 import net.imglib2.RandomAccessibleInterval;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,6 +33,9 @@ public abstract class AbstractCLIJPlugin implements PlugInFilter, CLIJMacroPlugi
     protected String name;
     public AbstractCLIJPlugin() {
         this.name = CLIJUtilities.classToName(this.getClass());
+        if (!this.getClass().getPackage().toString().contains(".clij.")) {
+            this.name = this.name.replace("CLIJ_", "CLIJx_");
+        }
     }
 
     public void setClij(CLIJ clij) {
@@ -211,9 +217,39 @@ public abstract class AbstractCLIJPlugin implements PlugInFilter, CLIJMacroPlugi
         return PlugInFilter.DOES_ALL;
     }
 
+    private boolean myWasOKed = false;
+    private boolean myWasCancelled = false;
+    private class MyGenericDialogPlus extends GenericDialogPlus {
+        public MyGenericDialogPlus(String title) {
+            super(title);
+        }
+
+        public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            IJ.setKeyDown(keyCode);
+
+            if (keyCode == 10 && this.textArea1 == null) {
+                myWasOKed = true;
+                myWasCancelled = false;
+                this.dispose();
+            } else if (keyCode == 27) {
+                myWasOKed = false;
+                myWasCancelled = true;
+                this.dispose();
+                IJ.resetEscape();
+            } else if (keyCode == 87 && (e.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0) {
+                myWasOKed = false;
+                myWasCancelled = true;
+                this.dispose();
+            }
+
+        }
+
+    }
+
     @Override
     public void run(ImageProcessor ip) {
-        GenericDialogPlus gd = new GenericDialogPlus(name);
+        GenericDialogPlus gd = new MyGenericDialogPlus(name);
 
         ArrayList<String> deviceList = CLIJ.getAvailableDeviceNames();
         if (clij == null) {
@@ -250,9 +286,13 @@ public abstract class AbstractCLIJPlugin implements PlugInFilter, CLIJMacroPlugi
                     "</body></html>"
             ));
         }
+        gd.addHelp("http://clij.github.io/");
+        gd.setHelpLabel("CLIJ online");
 
+        myWasCancelled = false;
+        myWasOKed = false;
         gd.showDialog();
-        if (gd.wasCanceled()) {
+        if (gd.wasCanceled() || myWasCancelled || (!myWasOKed && !gd.wasOKed())) {
             return;
         }
 
@@ -269,7 +309,7 @@ public abstract class AbstractCLIJPlugin implements PlugInFilter, CLIJMacroPlugi
         clij = CLIJ.getInstance(deviceName);
         //CLIJHandler.getInstance().setCLIJ(clij);
 
-        recordIfNotRecorded("// run", "\"CLIJ Macro Extensions\", \"cl_device=[" + deviceName + "]\"");
+        recordIfNotRecorded("run", "\"CLIJ Macro Extensions\", \"cl_device=[" + deviceName + "]\"");
 
         ArrayList<ClearCLBuffer> allBuffers = new ArrayList<ClearCLBuffer>();
 
@@ -293,7 +333,7 @@ public abstract class AbstractCLIJPlugin implements PlugInFilter, CLIJMacroPlugi
                         if (firstImageTitle.length() == 0) {
                             firstImageTitle = imp.getTitle();
                         }
-                        recordIfNotRecorded("// Ext.CLIJ_push", "\"" + imp.getTitle() + "\"");
+                        recordIfNotRecorded("Ext.CLIJ_push", "\"" + imp.getTitle() + "\"");
                         args[i] = CLIJHandler.getInstance().pushToGPU(imp.getTitle());
                                 //clij.convert(imp, ClearCLBuffer.class);
                         allBuffers.add((ClearCLBuffer) args[i]);
@@ -341,13 +381,20 @@ public abstract class AbstractCLIJPlugin implements PlugInFilter, CLIJMacroPlugi
             ((CLIJImageJProcessor)this).executeIJ();
         }
 
-        record("// Ext." + name, calledParameters);
+        record("Ext." + name, calledParameters);
 
         for (String destinationName : destinations.keySet()) {
-            record("// Ext.CLIJ_pull", "\"" + destinationName + "\"");
+            record("Ext.CLIJ_pull", "\"" + destinationName + "\"");
+        }
+
+        Recorder.setCommand(null);
+        boolean recordBefore = Recorder.record;
+        Recorder.record = false;
+        for (String destinationName : destinations.keySet()) {
             clij.show(destinations.get(destinationName), destinationName);
         }
-        
+        Recorder.record = recordBefore;
+
         allBuffers.clear();
         if (!isMacro) {
             CLIJHandler.getInstance().clearGPU();

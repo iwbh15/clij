@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>net.haesleinhuepf</groupId>
 		<artifactId>clij-parent-pom</artifactId>
-		<version>1.0.10-BETA</version>
+		<version>1.4.2</version>
 		<relativePath />
 	</parent>
 
 	<groupId>net.haesleinhuepf</groupId>
 	<artifactId>clij_</artifactId>
-	<version>1.0.10-BETA</version>
+	<version>1.4.2</version>
 
 	<name>clij</name>
 	<description>clij</description>
@@ -50,6 +50,10 @@
 	</developers>
 	<contributors>
 		<contributor>
+			<name>Peter Haub</name>
+			<properties><id>iwbh15</id></properties>
+		</contributor>
+		<contributor>
 			<name>Curtis Rueden</name>
 			<url>https://imagej.net/User:Rueden</url>
 			<properties><id>ctrueden</id></properties>
@@ -82,7 +86,7 @@
 		<license.licenseName>bsd_3</license.licenseName>
 		<license.copyrightOwners>Robert Haase, MPI CBG</license.copyrightOwners>
 		<imagej.app.directory>C:/programs/fiji-win64/Fiji.app/</imagej.app.directory>
-		<!--<imagej.app.directory>/home/rhaase/programs/fiji/Fiji.app/</imagej.app.directory>-->
+		<!--<imagej.app.directory>/home/haase/programs/fiji/Fiji.app/</imagej.app.directory>-->
 	</properties>
 
 	<dependencies>

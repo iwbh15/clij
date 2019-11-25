@@ -13,7 +13,7 @@ CLIJ is based on
 Robert Haase, Loic Alain Royer, Peter Steinbach, Deborah Schmidt, 
 Alexandr Dibrov, Uwe Schmidt, Martin Weigert, Nicola Maghelli, Pavel Tomancak, 
 Florian Jug, Eugene W Myers. 
-*CLIJ: Enabling GPU-accelerated image processing in Fiji*. BioRxiv preprint. [https://doi.org/10.1101/660704](https://doi.org/10.1101/660704)
+*CLIJ: GPU-accelerated image processing for everyone*. BioRxiv preprint. [https://doi.org/10.1101/660704](https://doi.org/10.1101/660704)
 
 If you search for support, please open a thread on the [image.sc](https://image.sc) forum.
 
@@ -26,8 +26,6 @@ If you search for support, please open a thread on the [image.sc](https://image.
 * [CLIJ - a quick tour](https://clij.github.io/clij-docs/quickTour)
 * Installation
   * [Fiji update site](https://clij.github.io/clij-docs/installationInFiji)
-  * [MicroManager 2.0](https://clij.github.io/clij-docs/installationInMicroManager)
-  * [ImageJ1](https://github.com/clij/clij-legacy/) (experimental)
   * [Depending on CLIJ via maven](https://clij.github.io/clij-docs/dependingViaMaven)
 * Introduction to CLIJ programming
   * [CLIJ for ImageJ Macro programmers](https://clij.github.io/clij-docs/macro_intro)
@@ -39,8 +37,8 @@ If you search for support, please open a thread on the [image.sc](https://image.
   * [Release notes](https://github.com/clij/clij/releases)
   * [Release cycle](https://clij.github.io/clij-docs/release_cycle)
 * Application programming interface (API)
-  * [API design principles](https://clij.github.io/clij-docs/api_design_priciples)
   * [ImageJ Macro](https://clij.github.io/clij-docs/reference)
+  * [ImageJ Macro cheat sheet](https://github.com/clij/clij-docs/blob/master/clij_cheatsheet.pdf)
   * [Jython](https://clij.github.io/clij-docs/referenceJython)
   * [Java](https://clij.github.io/clij-docs/referenceJava)
   * [Groovy](https://clij.github.io/clij-docs/referenceGroovy)
@@ -54,35 +52,66 @@ If you search for support, please open a thread on the [image.sc](https://image.
   * [ImageJ Ops in Java](https://github.com/clij/clij-ops/tree/master/src/test/java/net/haesleinhuepf/clij/ops/examples)
   * [ImageJ Ops in Jython](https://github.com/clij/clij-ops/tree/master/src/test/resources/jython)
 * Benchmarking
-  * [Benchmarking CLIJ operations versus ImageJ/Fiji operations](https://clij.github.io/clij-benchmarking/benchmarking_operations)
+  * [Benchmarking CLIJ operations versus ImageJ/Fiji operations using JMH](https://clij.github.io/clij-benchmarking/benchmarking_operations_jmh)
+  * [Benchmarking CLIJ operations versus ImageJ/Fiji operations (archived)](https://clij.github.io/clij-benchmarking/benchmarking_operations)
   * [Benchmarking a CLIJ workflow versus ImageJ/Fiji](https://clij.github.io/clij-benchmarking/benchmarking_workflow_spot_count)
 * Extending CLIJ functionality
   * [Plugin template](https://github.com/clij/clij-plugin-template/)
   * [Example plugin for convolution/deconvolution](https://github.com/clij/clij-custom-convolution-plugin/)
-* Troubleshooting
+* CLIJx - the upcoming successor of CLIJ
+  * [CLIJ2 development repository](https://github.com/clij/clij-advanced-filters) (experimental)
+  * [Icy](https://clij.github.io/clicy/) (experimental)
+  * [ImageJ1](https://github.com/clij/clij-legacy/) (experimental)
+  * [Matlab](https://clij.github.io/clatlab/) (experimental)
+  * [MicroManager 2.0](https://clij.github.io/clij-docs/installationInMicroManager) (experimental)
+  * [Python](https://clij.github.io/clijpy/) (experimental)  
+* FAQ / support
+  * [Frequently asked questions](https://clij.github.io/clij-docs/faq)
   * [List of tested systems](https://clij.github.io/clij-docs/testedsystems)
   * [Troubleshooting](https://clij.github.io/clij-docs/troubleshooting)
   * [Support](https://image.sc)
+  * [Imprint](https://clij.github.io/imprint)
 
 ## Acknowledgements
 Development of CLIJ is a community effort. We would like to thank everybody who helped developing and testing. In particular thanks goes to
+Alex Herbert (University of Sussex),
+Bram van den Broek (Netherlands Cancer Institute),
 Brenton Cavanagh (RCSI),
+Brian Northan (True North Intelligent Algorithms),
 Bruno C. Vellutini (MPI CBG),
 Curtis Rueden (UW-Madison LOCI),
 Damir Krunic (DKFZ),
 Daniel J. White (GE),
 Gaby G. Martins (IGC),
+Guillaume Witz (Bern University),
 Si&acirc;n Culley (LMCB MRC),
 Giovanni Cardone (MPI Biochem),
 Jan Brocher (Biovoxxel), 
+Jean-Yves Tinevez (Institute Pasteur),
 Johannes Girstmair (MPI CBG),
 Juergen Gluch (Fraunhofer IKTS),
-Kota Miura (Heidelberg),
+Kota Miura,
 Laurent Thomas (Acquifer), 
+Matthew Foley (University of Sydney),
 Nico Stuurman (UCSF),
+Peter Haub,
+Pete Bankhead (University of Edinburgh),
 Pradeep Rajasekhar (Monash University),
+Tanner Fadero (UNC-Chapel Hill),
+Thomas Irmer (Zeiss),
 Tobias Pietzsch (MPI-CBG),
-Wilsom Adams (VU Biophotonics)
+Wilson Adams (VU Biophotonics)
 
+R.H. was supported by the German Federal Ministry of
+Research and Education (BMBF) under the code 031L0044
+(Sysbio II) and D.S. received support from the German
+Research Foundation (DFG) under the code JU3110/1-1.
+P.T. was supported by the European Regional
+Development Fund in the IT4Innovations national
+supercomputing center-path to exascale project,
+project number CZ.02.1.01/0.0/0.0/16_013/0001791
+within the Operational Programme Research, Development
+and Education.
 
+[Imprint](https://clij.github.io/imprint)
   

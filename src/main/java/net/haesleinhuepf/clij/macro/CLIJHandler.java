@@ -48,7 +48,7 @@ public class CLIJHandler implements MacroExtension {
     @Override
     public String handleExtension(String name, Object[] args) {
 
-        ElapsedTime.measureForceOutput("Whole extension handling", () -> {
+        ElapsedTime.measure("exec " + name, () -> {
             ArrayList<Integer> existingImageIndices = new ArrayList<Integer>();
             HashMap<Integer, String> missingImageIndices = new HashMap<Integer, String>();
             HashMap<Integer, String> missingImageIndicesDescriptions = new HashMap<Integer, String>();
@@ -207,6 +207,13 @@ public class CLIJHandler implements MacroExtension {
         CLIJ.getInstance().show(buffer, arg);
     }
 
+    public void pullBinaryFromGPU(String arg) {
+        ClearCLBuffer buffer = bufferMap.get(arg);
+        ImagePlus imp = CLIJ.getInstance().pullBinary(buffer);
+        imp.setTitle(arg);
+        imp.show();
+    }
+
     public ClearCLBuffer pushToGPU(String arg) {
         ImagePlus imp = WindowManager.getImage(arg);
         imp.changes = false;
@@ -220,6 +227,14 @@ public class CLIJHandler implements MacroExtension {
         imp.changes = false;
 
         ClearCLBuffer temp = CLIJ.getInstance().pushCurrentSlice(imp);
+        return pushInternal(temp, arg);
+    }
+
+    public ClearCLBuffer pushCurrentZStackToGPU(String arg) {
+        ImagePlus imp = WindowManager.getImage(arg);
+        imp.changes = false;
+
+        ClearCLBuffer temp = CLIJ.getInstance().pushCurrentZStack(imp);
         return pushInternal(temp, arg);
     }
 
